@@ -18,14 +18,14 @@ public class FileSplitter {
 	
 	private int num;
 	
-	private int offset;
+	private int index;
 	
 	private List<BufferedWriter> writers;
 		
-	public FileSplitter(String input, int num, int offset, String sperator, String quota) {
+	public FileSplitter(String input, int num, int index, String sperator, String quota) {
 		this.input = input;
 		this.num = num;
-		this.offset = offset;
+		this.index = index;
 		this.sperator = sperator;
 		this.quota = quota;
 		writers = new ArrayList<BufferedWriter>();
@@ -37,9 +37,9 @@ public class FileSplitter {
 			String line = null;
 			while ((line = reader.readLine()) != null) {	
 				String[] strArray = line.split(sperator);
-				int index = Math.abs(removeQuotation(strArray[offset], quota).hashCode() % num);
-				writers.get(index).write(line);
-				writers.get(index).newLine();
+				int wirterIndex = Math.abs(StrUtils.removeQuotation(strArray[index], quota).hashCode() % num);
+				writers.get(wirterIndex).write(line);
+				writers.get(wirterIndex).newLine();
 			}
 		} catch (IOException e) {
 
@@ -48,13 +48,6 @@ public class FileSplitter {
 		}		
 	}
 	
-	private String removeQuotation(String msg, String quota) {
-		if (msg != null && quota != null && msg.startsWith(quota) && msg.endsWith(quota)) {
-			int len = quota.length();
-			return msg.substring(len, msg.length() - len);
-		} 
-		return msg;
-	}
 	
 	private void init() throws IOException {
 		for (int i = 0; i < num; i++) {

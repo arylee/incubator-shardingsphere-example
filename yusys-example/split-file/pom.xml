@@ -20,7 +20,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>cn.com.yusys.yufs.Main</mainClass>
+							<mainClass>cn.com.yusys.yufs.MainFilter</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
