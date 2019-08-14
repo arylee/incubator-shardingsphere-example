@@ -20,10 +20,10 @@ public class StartApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		repository.save(new Customer("123456789", "张三", "男"));
-		repository.save(new Customer("123456777", "李四", "男"));
-		repository.save(new Customer("123456888", "王五", "男"));
-		repository.save(new Customer("123456999", "美眉", "女"));
+		repository.save(new Customer("20180926J1010111001973533357", "张三", "男"));
+		repository.save(new Customer("20180926J1010111001961425954", "李四", "男"));
+		repository.save(new Customer("20180926J1010111001977090172", "王五", "男"));
+		repository.save(new Customer("20180926J1010111001755283486", "美眉", "女"));
 		System.out.println("Done.");
 	}
 

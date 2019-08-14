@@ -1,0 +1,71 @@
+# 数据源配置
+dataSources:
+ # 数据源1  
+  yufsdb00: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://172.16.20.31:3306/yufsdb00?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: yufs
+    password: yufs123456
+ # 数据源2
+  yufsdb01: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://172.16.20.32:3306/yufsdb01?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: yufs
+    password: yufs123456
+ # 数据源3
+  yufsdb02: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://172.16.20.33:3306/yufsdb02?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: yufs
+    password: yufs123456
+ # 数据源4
+  yufsdb03: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://172.16.20.34:3306/yufsdb03?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: yufs
+    password: yufs123456
+    
+# 分片规则
+shardingRule:
+  # 表规则
+  tables:
+    # myjb_cust_info 客户信息表
+    myjb_cust_info:
+      actualDataNodes: yufsdb0${0..3}.myjb_cust_info
+      # 数据库分片规则 复杂分片算法 按证件号
+      databaseStrategy:
+        standard:
+          shardingColumn: cert_no
+          preciseAlgorithmClassName: cn.com.yusys.yufs.sharding.SingleColumnHashAlgorithm
+      # 表分片规则 none
+      tableStrategy:
+        none:
+      # 主键雪花算法自增
+      keyGenerator:
+        type: SNOWFLAKE
+        column: mayi_cust_req
+        props:
+          worker.id: 123
+    # myjb_loan_detail 放款（合约）明细表
+    myjb_loan_detail:
+      actualDataNodes: yufsdb0${0..3}.myjb_loan_detail_${0..9}
+      # 数据库分片规则 复杂分片算法 按证件号
+      databaseStrategy:
+        standard:
+          shardingColumn: cert_no
+          preciseAlgorithmClassName: cn.com.yusys.yufs.sharding.SingleColumnHashAlgorithm
+      # 表分片规则 复杂分片算法 按合同号
+      tableStrategy:
+        standard:
+          shardingColumn: contract_no
+          preciseAlgorithmClassName: cn.com.yusys.yufs.sharding.SingleColumnHashAlgorithm
+      # 主键雪花算法自增
+      keyGenerator:
+        type: SNOWFLAKE
+        column: myjb_loan_detail_seq
+        props:
+          worker.id: 123
+
+props:
+  sql.show: true    
+    
