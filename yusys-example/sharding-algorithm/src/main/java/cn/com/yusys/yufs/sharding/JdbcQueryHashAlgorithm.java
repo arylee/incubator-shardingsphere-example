@@ -65,7 +65,7 @@ public class JdbcQueryHashAlgorithm implements PreciseShardingAlgorithm<String> 
                 }
             }
         }
-        String suffix = StrUtils.leftPaddingZero(Math.abs(shardingValue.getValue().hashCode() % size), size);
+        String suffix = StrUtils.leftPaddingZero(Math.abs(value.hashCode() % size), size);
         for (String target : availableTargetNames) {
             if (target.endsWith(suffix)) {
                 return target;
