@@ -1,6 +1,7 @@
 package cn.com.yusys.yufs.sharding;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +26,15 @@ public class JdbcQueryHashAlgorithm implements PreciseShardingAlgorithm<String> 
 	
 	static {
 		try {
-			dataSource = YamlShardingDataSourceFactory.createDataSource(new File(
-					"/home/dmp/sharding-proxy/conf/config-sharding.yaml"));
+			InputStream input = JdbcQueryHashAlgorithm.class.getClassLoader()
+					.getResourceAsStream("META-INF/config-sharding.yaml");
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int n = 0;
+			while (-1 != (n = input.read(buffer))) {
+				output.write(buffer, 0, n);
+			}
+			dataSource = YamlShardingDataSourceFactory.createDataSource(output.toByteArray());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
