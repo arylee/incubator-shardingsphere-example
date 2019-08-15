@@ -1,0 +1,1 @@
+SELECT cert_no FROM myjb_loan_detail WHERE contract_no = ?
